@@ -1,6 +1,6 @@
 # libtrees
 
-C++ library implementing decision trees and random forests.
+C++ library implementing binary decision trees and random forests.
 
 To compile, you'll first need to install [CMake](https://cmake.org).  Then type:
 
