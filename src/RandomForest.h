@@ -22,23 +22,23 @@ namespace trees {
     public:
         
         //functions
-        RandomForest(vector<string>&);
-        void trainRandomForest(Matrix&, vector<int>&, int nSamps=100, int nFeat=10, int minSize=20);
-        void makePredictions(Matrix&, vector<int>&);
+        RandomForest(std::vector<std::string>&);
+        void trainRandomForest(Matrix&, std::vector<int>&, int=100, int=10, int=20);
+        void makePredictions(Matrix&, std::vector<int>&);
         void storeHeadNodeSplits();
-        map<string, map<int, int> > getHeadNodeSplits();
+        std::map<std::string, std::map<int, int> > getHeadNodeSplits();
         
         
     protected:
         
         //global variables
-        vector<Node*> _treeStorage;                         //store decision trees
-        int _nBootSamps;                                    //number bootstrap samples (trees) to make
-        bool _storeHeadNodeSplits;                          //sets whether we save head node data
-        map<string, map<int, int> > _headNodeSplitStore;    //stores all head node splits
+        std::vector<Node*> _treeStorage;                                //store decision trees
+        int _nBootSamps;                                                //number bootstrap samples (trees) to make
+        bool _storeHeadNodeSplits;                                      //sets whether we save head node data
+        std::map<std::string, std::map<int, int> > _headNodeSplitStore; //stores all head node splits
         
         //functions
-        void getBootstrapSample(Matrix&, vector<int>&, Matrix&, vector<int>&);
+        void getBootstrapSample(Matrix&, std::vector<int>&, Matrix&, std::vector<int>&);
         void storeHeadNodeData();
         
     };

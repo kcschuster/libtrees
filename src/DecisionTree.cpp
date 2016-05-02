@@ -18,6 +18,7 @@
 
 #include "DecisionTree.h"
 
+using namespace std;
 
 
 namespace trees
@@ -368,7 +369,7 @@ namespace trees
         }
     }
     
-    //*** can optimize further by sorting points based on feature val
+    //*** can optimize further by sorting points based on feature val, not using linked lists
     //returns feature index and threshold for best split for data in single node
     pair<int, int> DecisionTree::findSegmentor(Matrix& data, vector<int>& labels)
     {

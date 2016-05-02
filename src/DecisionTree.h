@@ -21,8 +21,6 @@
 #include <map>
 #include <list>
 
-using namespace std;
-
 
 
 namespace trees { 
@@ -33,14 +31,14 @@ namespace trees {
     public:
         
         //constructor/destructor
-        DecisionTree(vector<string>& features);
-        ~DecisionTree();
+        DecisionTree(std::vector<std::string>& features);
+        virtual ~DecisionTree();
         
         //data structure definitions
-        typedef vector< vector<int> > Matrix;
-        typedef map<int, vector< pair<string, vector<int> > > > SplitMap;
-        typedef vector< pair<string, vector<int> > > SplitVector;
-        typedef pair<string, vector<int> > SplitPair;
+        typedef std::vector< std::vector<int> > Matrix;
+        typedef std::pair<std::string, std::vector<int> > SplitPair;
+        typedef std::vector< SplitPair > SplitVector;
+        typedef std::map<int, SplitVector> SplitMap;
         
         
         //define a node class (for each node in the tree)
@@ -52,17 +50,17 @@ namespace trees {
             Node(const Node&);
             const Node& operator=(const Node&);
             
-            pair<int, int> spltRule;   //pair of feature index (of _features) & threshold value to split at
-            vector<Node*> chld;        //child nodes
+            std::pair<int, int> spltRule;   //pair of feature index (of _features) & threshold value to split at
+            std::vector<Node*> chld;        //child nodes
             bool isLeaf;               //tells whether node is leaf node
             int lab;                   //when leaf node, label with which to classifty data points
         };
         
         //functions
-        void trainDecisionTree(Matrix&, vector<int>&, int minSize=20);
-        map<int, double> performCrossValidation(Matrix&, vector<int>&, vector<int>&, int param=1, int k=10);
-        void makePredictions(Matrix&, vector<int>&);
-        double computeValidationAccuracy(vector<int>&, vector<int>&);
+        void trainDecisionTree(Matrix&, std::vector<int>&, int=20);
+        std::map<int, double> performCrossValidation(Matrix&, std::vector<int>&, std::vector<int>&, int=1, int=10);
+        virtual void makePredictions(Matrix&, std::vector<int>&);
+        double computeValidationAccuracy(std::vector<int>&, std::vector<int>&);
         void setVocal(bool);
         void followSample(int);
         SplitVector getSampleSplits(int);
@@ -72,31 +70,31 @@ namespace trees {
     protected:
         
         //global variables
-        vector<string> _features;               //names of features
-        int _nFeatures;                         //number of features
-        int _nConsideredFeatures;               //# of features to use at each node
-        int _minNodeSize;                       //min # samples allowed in a node
-        vector< list<int> > _featureValues;     //observed values for each feature
-        list<int> _labelValues;                 //possible labels based on training data
-        int _defaultLabel;                      //most frequent label in training data
-        map<string, int> _featureMap;           //for each string feature, gives index in feature vector
-        Node* _root;                            //classification tree
-        bool _vocal;                            //sets whether program prints out info
-        int _followSampleIndex;                 //sample index whose splits we record
-        SplitMap _sampleStore;                  //stores splits made for selected sample
+        std::vector<std::string> _features;             //names of features
+        int _nFeatures;                                 //number of features
+        int _nConsideredFeatures;                       //# of features to use at each node
+        int _minNodeSize;                               //min # samples allowed in a node
+        std::vector< std::list<int> > _featureValues;   //observed values for each feature
+        std::list<int> _labelValues;                    //possible labels based on training data
+        int _defaultLabel;                              //most frequent label in training data
+        std::map<std::string, int> _featureMap;         //for each string feature, gives index in feature vector
+        Node* _root;                                    //classification tree
+        bool _vocal;                                    //sets whether program prints out info
+        int _followSampleIndex;                         //sample index whose splits we record
+        SplitMap _sampleStore;                          //stores splits made for selected sample
         
         //functions
-        void makeFeatureIndexMap(vector<string>&);
-        list<int> getLabelValues(vector<int>&);
-        int getLabelMode(vector<int>&);
-        vector< list<int> > getFeatureValues(Matrix&);
-        int getFeatureIndex(string);
-        Node* buildDecisionTree(Matrix&, vector<int>&, Node*);
-        bool sameLabels(vector<int>&);
-        pair<int, int> findSegmentor(Matrix&, vector<int>&);
-        double calculateEntropy(list<int>&, list<int>&);
-        void trimMatrix(Matrix&, vector<int>&, Matrix&, vector<int>&, pair<int, int>&, int);
-        void randomizeSamples(Matrix&, vector<int>&);
+        void makeFeatureIndexMap(std::vector<std::string>&);
+        std::list<int> getLabelValues(std::vector<int>&);
+        int getLabelMode(std::vector<int>&);
+        std::vector< std::list<int> > getFeatureValues(Matrix&);
+        int getFeatureIndex(std::string);
+        Node* buildDecisionTree(Matrix&, std::vector<int>&, Node*);
+        bool sameLabels(std::vector<int>&);
+        std::pair<int, int> findSegmentor(Matrix&, std::vector<int>&);
+        double calculateEntropy(std::list<int>&, std::list<int>&);
+        void trimMatrix(Matrix&, std::vector<int>&, Matrix&, std::vector<int>&, std::pair<int, int>&, int);
+        void randomizeSamples(Matrix&, std::vector<int>&);
         void saveSplitInfo(int, int, int, int);
     };
 }

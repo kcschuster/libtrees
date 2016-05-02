@@ -20,6 +20,8 @@
 
 #include "RandomForest.h"
 
+using namespace std;
+
 
 
 namespace trees 
